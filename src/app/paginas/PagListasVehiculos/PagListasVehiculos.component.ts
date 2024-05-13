@@ -7,6 +7,8 @@ import swal from 'sweetalert';
 @Component({
   selector: 'app-PagListasVehiculos',
   templateUrl: './PagListasVehiculos.component.html',
+  //standalone : true 
+  // imports : []
   styleUrls: ['./PagListasVehiculos.component.css']
 })
 export class PagListasVehiculosComponent implements OnInit { 
@@ -47,16 +49,22 @@ ngOnInit() {
       console.error('Error al obtener el vehículo:', error);
     }
     );*/
-  } 
+  }  
 
   consultarVehiculos(){
     this.vehiculoService.getVehiculos(this.filtro, this.rows, this.page).subscribe( respuesta =>{
+      console.log("**** consultarVehiculos",respuesta);
       if(respuesta.codigo == '1'){
         this.ListasVehiculos = respuesta.data;
         this.pages = respuesta.pages;
         this.paginar(respuesta.pages);
       }
-    });
+    },
+    error =>{
+      console.error(error);
+    }
+    
+  );
   }
 
   cambiarPagina(pagina:number){
